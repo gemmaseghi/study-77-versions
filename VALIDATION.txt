@@ -1,0 +1,12 @@
+Production build: PASS
+
+PASS version 1: 16 trials, 334 event/response/timing rows; help, resets, timing, final task and questionnaire.
+PASS version 2: 16 trials, 356 event/response/timing rows; help, resets, timing, final task and questionnaire.
+PASS version 3: 16 trials, 286 event/response/timing rows; help, resets, timing, final task and questionnaire.
+PASS version 4: 16 trials, 308 event/response/timing rows; help, resets, timing, final task and questionnaire.
+PASS version 5: 16 trials, 336 event/response/timing rows; help, resets, timing, final task and questionnaire.
+PASS version 6: 16 trials, 358 event/response/timing rows; help, resets, timing, final task and questionnaire.
+
+Exhaustive final-grid scoring: example 1: 146 valid paths, 3 optimal, max +2; example 2: 112 valid paths, 2 optimal, max +2.
+
+Component tests mock canvas/image rendering. Real-browser UI and live-server submission remain to be checked after deployment. No live submission was sent.
