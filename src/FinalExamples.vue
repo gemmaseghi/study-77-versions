@@ -1,10 +1,10 @@
 <template>
   <Screen>
     <div class="examples">
-      <h2>Explain an example for the next players</h2>
+      <h2>Write an explanation for two practice examples for the next players</h2>
       <p>Example {{ exampleIndex + 1 }} of 2</p>
       <p>Select the path you think earns the most points, from green to yellow.
-        Then explain to the people who play after you why this path is optimal.
+        Then write a description explaining to the next players why this path is optimal.
         Your explanation should help them understand which path to take and why,
         like the explanations you read in the practice examples.</p>
       <p>These examples do not change your game score.</p>

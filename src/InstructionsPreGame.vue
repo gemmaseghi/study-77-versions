@@ -164,7 +164,8 @@ export default {
             </p>
             </p>
 
-${variant.slider ? `            <p>
+            ${variant.slider ? `            
+            <p>
               Once you have seen the current score, in the following screen, you will be asked to <strong>express a rating on a slider from 0 to 100</strong>. In the first round, the slider starts at <strong>50</strong>.
               In later rounds, it starts at <strong>your previous rating</strong>. During each round, you can either keep your previous rating or change it. <strong>The slider is used to evaluate your confidence in the instructions you received</strong>. 
             </p>` : ''}

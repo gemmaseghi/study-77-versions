@@ -30,13 +30,6 @@
           write in bullet points the main rules of the game.
         </p>
 
-        <p v-else>
-          At the end of the game, you will prepare explanations of two examples for people who play after you.
-          For each example, select the path you think earns the most points, then explain to the next players
-          why that path is optimal. Your explanations should help them understand which path to take and why,
-          like the explanations accompanying the practice examples.
-        </p>
-
         <p>
           Click on Alice's or Mike's picture to select whose instructions you want
           to read, then click "Next" to continue.
@@ -125,6 +118,7 @@
 </template>
 
 <script>
+import { variant } from "./variants";
 export default {
   name: "InstructionsWithBack",
 
@@ -329,6 +323,24 @@ export default {
               it earns <strong>2 points</strong>, while Option A earns
               <strong>0 points</strong>.
             </p>
+
+            ${variant.finalTask === 'examples' ? `
+            <p>
+              Once you select an option, you will read an explanation of
+              why the path you selected was the correct choice or not. 
+            </p>
+
+            <p>
+              <strong>
+                At the end of the game, you will also be asked to write explanations of two
+                practice rounds for the people who play after you.
+              </strong>
+              For each example, you will select the path you think earns
+              the most points and explain why it is optimal.
+              Use the practice explanations as examples of how to explain
+              your choices to the next players.
+            </p>
+          ` : ''}
 
             <p>
               Click on "Next" to start the practice. After that, you will be ready to start the real game!
