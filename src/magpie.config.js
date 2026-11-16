@@ -1,6 +1,6 @@
 import { mode, preview } from './variants';
 export default {
-  experimentId: '76',
+  experimentId: '78',
   serverUrl: 'https://magpie-cogsciprag.fly.dev',
   socketUrl: preview ? null : 'wss://magpie-cogsciprag.fly.dev/socket',
   // this will be used in prolific mode
