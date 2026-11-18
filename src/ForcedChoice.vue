@@ -13,17 +13,6 @@
 
       <!-- A new key recreates the images when the round changes. -->
       <div :key="currentTrial.id">
-        <!-- The empty grid appears above the two answers. -->
-        <figure class="empty-grid">
-          <figcaption>{{ currentTrial.title }}</figcaption>
-
-          <img
-            :src="currentTrial.emptyImage"
-            alt="Empty practice grid"
-            @load="markImageLoaded('empty')"
-            @error="handleImageError"
-          />
-        </figure>
 
         <!-- Each whole card is clickable, including its title and image. -->
         <div class="options">
@@ -105,9 +94,7 @@ export default {
       practiceTrials: [
         {
           id: "maze_practice_1",
-          title: "Empty grid",
 
-          emptyImage: "instructions/forced_choice_1.png",
           correctImage: "instructions/correct_option_forced_choice_1.png",
           incorrectImage: "instructions/incorrect_option_forced_choice_1.png",
           correctOption: "A",
@@ -128,9 +115,7 @@ export default {
 
         {
           id: "maze_practice_2",
-          title: "Empty grid",
 
-          emptyImage: "instructions/forced_choice_2.png",
           correctImage: "instructions/correct_option_forced_choice_2.png",
           incorrectImage: "instructions/incorrect_option_forced_choice_2.png",
           correctOption: "B",
@@ -171,7 +156,10 @@ export default {
     },
 
     imagesReady() {
-      return !this.imageError && this.loadedImages.length === 3;
+      return (
+        !this.imageError &&
+        this.options.every(option => this.loadedImages.includes(option.id))
+      );
     },
 
     isCorrect() {
@@ -226,7 +214,6 @@ export default {
           trial_id: this.currentTrial.id,
           practice_round: this.currentTrialIndex + 1,
 
-          empty_image: this.currentTrial.emptyImage,
           correct_image: this.currentTrial.correctImage,
           incorrect_image: this.currentTrial.incorrectImage,
           option_a_image: this.options[0].image,

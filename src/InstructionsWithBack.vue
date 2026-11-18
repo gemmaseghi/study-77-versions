@@ -11,13 +11,13 @@
         </p>
 
         <p>
-          The participants that played this game before you are called Alice and Mike.
+          The participants that played this game before you are called Alice and Marie.
           After they played, the task we gave to each of them was to write down the
           instructions of the game in a very detailed way.
         </p>
 
         <p>
-          <strong>You can now choose whether you want to read Alice's or Mike's explanation of the game's rules.</strong>
+          <strong>You can now choose whether you want to read Alice's or Marie's explanation of the game's rules.</strong>
         </p>
 
         <p>
@@ -31,12 +31,12 @@
             At the end of the game, you will also be asked to write a summary of the
             rules of the game for the next participants.
           </strong>
-          You won't need to be as detailed as Alice and Mike, but you will need to
+          You won't need to be as detailed as Alice and Marie, but you will need to
           write in bullet points the main rules of the game.
         </p>
 
         <p>
-          Click on Alice's or Mike's picture to select whose instructions you want
+          Click on Alice's or Marie's picture to select whose instructions you want
           to read, then click "Next" to continue.
         </p>
 
@@ -139,14 +139,14 @@ export default {
 
       instructors: [
         {
-          id: "woman",
+          id: "alice",
           name: "Alice",
           image: "instructions/alice_picture.png"
         },
         {
-          id: "man",
-          name: "Mike",
-          image: "instructions/mike_picture.png"
+          id: "marie",
+          name: "Marie",
+          image: "instructions/Marie_picture.jpg"
         }
       ],
 
@@ -176,7 +176,6 @@ export default {
 
             <p>
               Your goal is to reach the yellow cell while <strong>earning as many points as possible</strong>.
-              Next, I will explain how to move and how points are calculated.
             </p>
           `
         },
@@ -217,25 +216,21 @@ export default {
         {
           title: "Points: extra cells",
           text: `
+
             <p>
-              You lose <strong>1 point for every extra cell</strong> you visit beyond the shortest possible path from green to yellow. 
+              In every grid, there are many possible paths of different lengths that connect the green cell to the yellow cell.
+            </p>
+            <p>
+              <strong>You lose 1 point for every extra cell you visit beyond the shortest possible path from green to yellow</strong>. 
               For example, a path with <strong>one extra cell costs 1 point</strong>, a path with <strong>two extra cells costs 2 points</strong>, and so on.
             </p>
 
             <p>
-              In every grid, there are many possible paths of different lengths that connect the green cell to the yellow cell. In the grid below, the minimum number of cells from green to yellow (excluding the green and the yellow cells themselves) is 5. 
+              In the grids below, the minimum number of cells from green to yellow (excluding the green and the yellow cells themselves) is 5. 
             </p>
 
-            <div class="instruction-figure">
-              <img
-                src="instructions/example_for_minimal_path.png"
-                alt="A grid used to compare shorter and longer paths."
-                class="example-image small-image"
-              />
-            </div>
-
             <p>
-              Below, the <strong>first two paths from the left are both shortest paths</strong>, so neither receives an extra-cell penalty.
+              The <strong>first two paths from the left are both shortest paths</strong>, so neither receives an extra-cell penalty.
               The <strong>third path however uses four extra cells</strong>, so it would cost <strong> -4 points</strong>.
             </p>
 
@@ -254,21 +249,8 @@ export default {
           title: "Points: orange cells",
           text: `
             <p>
-              In the grids, apart from the green and the yellow cells, there will also be other colored cells. You gain <strong>2 points for every orange cell</strong> you visit.
+              In the grids, apart from the green and the yellow cells, there will also be other colored cells. <strong>You gain 2 points for every orange cell you visit.</strong>
             </p>
-
-            <p>
-              This means that paths of the same length can earn <strong>different numbers of points</strong>.
-              Consider the grid below: the minimum number of cells from green to yellow is 3, however, there are different paths with 3 cells that you can select. 
-            </p>
-
-            <div class="instruction-figure">
-              <img
-                src="instructions/instr_orange_empty.png"
-                alt="A grid containing an orange cell."
-                class="example-image small-image"
-              />
-            </div>
 
             <p>
               Below, you can see two possible paths with 3 cells selected. Both paths are shortest paths, so neither receives an extra-cell penalty.
@@ -292,26 +274,8 @@ export default {
           text: `
             <p>
               You will now complete <strong>two practice rounds</strong>.
-              In each round, choose the path that would earn
-              <strong>the most points</strong>.
-            </p>
-
-            <p>
-              An <strong>empty grid will appear at the top</strong> of the page:
-            </p>
-
-            <div class="instruction-figure">
-              <img
-                src="instructions/forced_choice_example_empty.png"
-                alt="An empty grid for a practice round."
-                class="example-image small-image"
-              />
-            </div>
-
-            <p>
-              Below it, you will see two possible paths:
-              <strong>Option A</strong> and <strong>Option B</strong>.
-              <strong>Click the option that earns more points.</strong>
+              In each round, you will see two possible paths: <strong>Option A</strong> and <strong>Option B</strong>. Click on the path that earns
+              <strong>more points</strong>.
             </p>
 
             <div class="instruction-figure">
@@ -323,24 +287,28 @@ export default {
             </div>
 
             <p>
-              In this example, <strong>Option B is correct</strong>:
+              In this example, <strong>Option B is correct</strong>, as
               it earns <strong>2 points</strong>, while Option A earns
               <strong>0 points</strong>.
             </p>
 
-            ${variant.finalTask === 'examples' ? `
             <p>
               Once you select an option, you will read an explanation of
               why the path you selected was the correct choice or not. 
             </p>
 
+            ${variant.finalTask === 'examples' ? `
+            
             <p>
               <strong>
                 At the end of the game, you will also be asked to write explanations of two
                 practice rounds for the people who play after you.
               </strong>
+            </p>  
+
+            <p>
               For each example, you will select the path you think earns
-              the most points and explain why it is optimal.
+              more points and explain why.
               Use the practice explanations as examples of how to explain
               your choices to the next players.
             </p>

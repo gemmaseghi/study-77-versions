@@ -1,7 +1,7 @@
 <template>
   <Screen>
     <div class="grid-trial">
-      <h2>Round {{ roundNumber }}</h2>
+      <h2 v-if="stage !== 'waiting'">Round {{ roundNumber }}</h2>
       <p v-if="configurationError" class="error" role="alert">{{ configurationError }}</p>
       <template v-else>
         <section v-if="stage === 'selection'" aria-label="Choose your path">
@@ -99,6 +99,15 @@
           <button type="button" @click="endScoreTest">Select my final path</button>
         </section>
 
+        <section
+          v-else-if="stage === 'waiting'"
+          class="waiting-screen"
+          role="status"
+          aria-live="polite"
+        >
+          <p>Waiting for the other participant to submit their path...</p>
+        </section>
+
         <section v-else-if="stage === 'feedback'" aria-label="Round feedback">
           <div class="comparison">
             <figure>
@@ -130,7 +139,18 @@
           <button type="button" :disabled="!opponentReady || opponentError" @click="showConfidence">Next</button>
         </section>
         <section v-else-if="stage === 'confidence'" class="confidence">
-          <h3><label :for="sliderId">How confident are you in {{ instructorName ? instructorName + '’s' : 'your instructor’s' }} explanation of the rules?</label></h3>
+          <h3>
+            <label :for="sliderId">
+              <template v-if="variant.id === '7'">
+                How confident are you in your understanding of the game's rules?
+              </template>
+              <template v-else>
+                How confident are you in
+                {{ instructorName ? instructorName + '’s' : 'your instructor’s' }}
+                explanation of the rules?
+              </template>
+            </label>
+          </h3>
           <div class="slider-wrap">
             <input :id="sliderId" v-model.number="confidence" type="range" min="0" max="100" step="1"
               :aria-valuetext="confidence + ' out of 100'" @input="touchConfidence" />
@@ -175,6 +195,8 @@ export default {
       helpEvents: [],
       redSelections: [],
       firstRedSelection: null,
+      waitingTimer: null,
+      waitingDurationMs: 1000,
       pathScore: 0, selectedPath: [], errorMessage: '', imageReady: false,
       busy: false, pathPng: '', roundScore: 0, participantTotal: 0, opponentTotal: 0,
       confidence: 50, confidenceInitial: 50, confidenceTouched: false,
@@ -183,6 +205,7 @@ export default {
   },
   computed: {
     timingPhase() {
+      if (this.stage === "waiting") return "opponent_wait";
       if (this.stage === 'selection') return !this.imageReady ? 'maze_loading' : this.testingPath ? 'test_path' : 'main_path';
       if (this.stage === 'feedback') return this.opponentReady ? 'opponent_review' : 'opponent_loading';
       return { rules: 'instructions_help', 'test-explanation': 'test_explanation', 'test-result': 'test_result', confidence: 'awareness_slider' }[this.stage] || this.stage;
@@ -228,6 +251,11 @@ export default {
     winnerMessage() { return this.participantTotal === this.opponentTotal ? 'The game is a tie!' : this.participantTotal > this.opponentTotal ? 'You win the game!' : 'Your opponent wins the game.'; },
     sliderId() { return 'maze-confidence-' + this.roundNumber + '-' + this.trial.trial_id; }
   },
+
+  beforeDestroy() {
+    clearTimeout(this.waitingTimer);
+  },
+
   methods: {
     mazeLoaded() { this.imageReady = true; if (this.roundStarted === null) this.roundStarted = performance.now(); },
     opponentLoaded() { this.opponentReady = true; },
@@ -426,6 +454,28 @@ export default {
       });
       return canvas.toDataURL('image/png');
     },
+
+    startOpponentWait() {
+      clearTimeout(this.waitingTimer);
+
+      this.opponentReady = false;
+      this.opponentError = false;
+      this.stage = "waiting";
+
+      // Start the delay after Vue has updated the waiting screen.
+      this.$nextTick(() => {
+        if (this._isDestroyed || this.stage !== "waiting") return;
+
+        this.waitingTimer = setTimeout(() => {
+          this.waitingTimer = null;
+
+          if (!this._isDestroyed && this.stage === "waiting") {
+            this.stage = "feedback";
+          }
+        }, this.waitingDurationMs);
+      });
+    },
+
     confirmPath() {
       if (!this.isComplete || this.testingPath || this.busy || this.stage !== 'selection') return;
       const submittedAt = performance.now();
@@ -517,7 +567,7 @@ export default {
         this.opponentTotal = opponent;
         this.$emit('update-game', { ...this.gameState, participant, opponent, confidence: this.gameState.confidence });
         this.errorMessage = '';
-        this.stage = 'feedback';
+        this.startOpponentWait();
       } catch (error) {
         console.error('Maze confirmation failed:', error);
         this.beginTiming();
@@ -676,6 +726,23 @@ export default {
 .help-side {
   display: flex;
   justify-content: center;
+}
+
+.waiting-screen {
+  min-height: 65vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: #202124;
+}
+
+.waiting-screen p {
+  margin: 0;
+  padding: 24px;
+  font-size: 22px;
+  line-height: 1.6;
+  text-align: center;
 }
 
 .grid-trial .help-button {

@@ -110,35 +110,188 @@
         ></textarea>
       </div>
 
-      <button :disabled="!canSubmit" @click="submitQuestionnaire">
+      <button :disabled="!canContinueFromStep5" @click="step = 6">
         Next
+      </button>
+    </div>
+
+    <!-- Step 6: Demographics and preferences -->
+    <div v-if="step === 6" class="question">
+      <h3>A few questions about you</h3>
+
+      <label for="participant-age">How old are you?</label>
+      <input
+        id="participant-age"
+        v-model.number="age"
+        type="number"
+        min="1"
+        max="70"
+        step="1"
+        class="text-input"
+      />
+
+      <label for="participant-gender">What is your gender?</label>
+      <input
+        id="participant-gender"
+        v-model="gender"
+        type="text"
+        class="text-input"
+      />
+
+      <fieldset class="yes-no-question">
+        <legend>Do you consider yourself a competitive person?</legend>
+
+        <div class="radio-container">
+          <label>
+            <input
+              v-model="competitive"
+              type="radio"
+              name="competitive"
+              value="yes"
+            />
+            Yes
+          </label>
+          <label>
+            <input
+              v-model="competitive"
+              type="radio"
+              name="competitive"
+              value="no"
+            />
+            No
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="yes-no-question">
+        <legend>Do you enjoy playing games?</legend>
+
+        <div class="radio-container">
+          <label>
+            <input
+              v-model="likesGames"
+              type="radio"
+              name="likes-games"
+              value="yes"
+            />
+            Yes
+          </label>
+          <label>
+            <input
+              v-model="likesGames"
+              type="radio"
+              name="likes-games"
+              value="no"
+            />
+            No
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="yes-no-question">
+        <legend>Do you like Math?</legend>
+
+        <div class="radio-container">
+          <label>
+            <input
+              v-model="likesMath"
+              type="radio"
+              name="likes-math"
+              value="yes"
+            />
+            Yes
+          </label>
+          <label>
+            <input
+              v-model="likesMath"
+              type="radio"
+              name="likes-math"
+              value="no"
+            />
+            No
+          </label>
+        </div>
+      </fieldset>
+
+      <button :disabled="!canContinueFromStep6" @click="step = 7">
+        Next
+      </button>
+    </div>
+
+    <!-- Step 7: Perceived purpose and feedback -->
+    <div v-if="step === 7" class="question">
+      <h3>Your thoughts on the experiment</h3>
+
+      <label for="experiment-purpose">
+        What do you think this experiment was about?
+      </label>
+      <textarea
+        id="experiment-purpose"
+        v-model="experimentPurpose"
+        class="final-response"
+      ></textarea>
+
+      <label for="experiment-feedback">
+        Do you have any feedback on the experiment? For example,
+        was anything unclear, or is there anything you think could
+        be improved? (Optional)
+      </label>
+      <textarea
+        id="experiment-feedback"
+        v-model="experimentFeedback"
+        class="final-response"
+      ></textarea>
+
+      <p v-if="saveError" role="alert">{{ saveError }}</p>
+
+      <button
+        :disabled="!canSubmit || submitting"
+        @click="submitQuestionnaire"
+      >
+        {{ submitting ? "Saving…" : "Finish questionnaire" }}
       </button>
     </div>
   </Screen>
 </template>
-
 <script>
 import { variant } from "./variants";
+
 export default {
   name: "Questionnaire",
 
   data() {
     return {
-      step: variant.finalTask === 'summary' ? 1 : 2,
+      step: variant.finalTask === "summary" ? 1 : 2,
+
       strategyExplanation: "",
       peculiar: "",
       peculiarExplanation: "",
       suspicion: "",
       suspicionYesExplanation: "",
-      suspicionNoExplanation: ""
+      suspicionNoExplanation: "",
+
+      age: "",
+      gender: "",
+      competitive: "",
+      likesGames: "",
+      likesMath: "",
+      experimentPurpose: "",
+      experimentFeedback: "",
+
+      submitting: false,
+      saveError: ""
     };
   },
 
   computed: {
-    timingPhase() { return 'questionnaire_' + this.step; },
+    timingPhase() {
+      return "questionnaire_" + this.step;
+    },
 
-    canSubmit() {
-      const rulesComplete = variant.finalTask === 'examples' || this.strategyExplanation.trim().length > 0;
+    canContinueFromStep5() {
+      const rulesComplete =
+        variant.finalTask === "examples" ||
+        this.strategyExplanation.trim().length > 0;
 
       const peculiarComplete =
         this.peculiar === "no" ||
@@ -152,28 +305,73 @@ export default {
           this.suspicionNoExplanation.trim().length > 0);
 
       return rulesComplete && peculiarComplete && suspicionComplete;
+    },
+
+    canContinueFromStep6() {
+      const validAge =
+        Number.isInteger(this.age) &&
+        this.age >= 1 &&
+        this.age <= 120;
+
+      const isYesOrNo = value => ["yes", "no"].includes(value);
+
+      return (
+        validAge &&
+        this.gender.trim().length > 0 &&
+        isYesOrNo(this.competitive) &&
+        isYesOrNo(this.likesGames) &&
+        isYesOrNo(this.likesMath)
+      );
+    },
+
+    canSubmit() {
+      return (
+        this.canContinueFromStep5 &&
+        this.canContinueFromStep6 &&
+        this.experimentPurpose.trim().length > 0
+      );
     }
   },
 
   methods: {
     submitQuestionnaire() {
-      if (!this.canSubmit) return;
+      if (this.step !== 7 || !this.canSubmit || this.submitting) return;
 
-      this.$magpie.addTrialData({
-        trial_type: "questionnaire",
+      this.submitting = true;
+      this.saveError = "";
 
-        strategy_explanation: this.strategyExplanation.trim(),
+      try {
+        this.$magpie.addTrialData({
+          trial_type: "questionnaire",
 
-        peculiar_answer: this.peculiar,
-        peculiar_explanation: this.peculiarExplanation.trim(),
+          strategy_explanation: this.strategyExplanation.trim(),
 
-        suspicion_answer: this.suspicion,
-        suspicion_yes_explanation: this.suspicionYesExplanation.trim(),
-        suspicion_no_explanation: this.suspicionNoExplanation.trim(),
+          peculiar_answer: this.peculiar,
+          peculiar_explanation: this.peculiarExplanation.trim(),
 
-        // Examples are now included in suspicion_yes_explanation.
-        suspicion_examples: ""
-      });
+          suspicion_answer: this.suspicion,
+          suspicion_yes_explanation:
+            this.suspicionYesExplanation.trim(),
+          suspicion_no_explanation:
+            this.suspicionNoExplanation.trim(),
+
+          // Examples are included in suspicion_yes_explanation.
+          suspicion_examples: "",
+
+          age: this.age,
+          gender: this.gender.trim(),
+          competitive: this.competitive,
+          likes_games: this.likesGames,
+          likes_math: this.likesMath,
+          experiment_purpose: this.experimentPurpose.trim(),
+          experiment_feedback: this.experimentFeedback.trim()
+        });
+      } catch (error) {
+        this.submitting = false;
+        this.saveError =
+          "Your responses could not be saved. Please try again.";
+        return;
+      }
 
       this.$magpie.nextScreen();
     }
@@ -226,5 +424,38 @@ button {
   align-items: center;
   gap: 5px;
   margin: 0;
+}
+
+.text-input {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 24px;
+  padding: 10px;
+  font: inherit;
+  box-sizing: border-box;
+}
+
+.yes-no-question {
+  border: 0;
+  padding: 0;
+  margin: 28px 0;
+  min-width: 0;
+}
+
+.yes-no-question legend {
+  width: 100%;
+  padding: 0;
+  text-align: center;
+}
+
+textarea.final-response {
+  display: block;
+  min-height: 200px;
+  margin: 12px auto 32px;
+  padding: 12px;
+  font: inherit;
+  line-height: 1.5;
+  resize: vertical;
 }
 </style>

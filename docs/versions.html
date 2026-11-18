@@ -3,6 +3,6 @@
 <h1>Maze experiment: six versions</h1><p>Preview links do not submit results. Participant links submit to experiment 76 on the existing Magpie server. Send friends the link for their version, not this comparison page.</p>
 <table><thead><tr><th>Version</th><th>Final task</th><th>Slider</th><th>Explain test paths</th><th>Links</th></tr></thead><tbody id="versions"></tbody></table>
 <script>
-const settings=[['Rules summary','Yes','No'],['Two examples','Yes','No'],['Rules summary','No','No'],['Two examples','No','No'],['Rules summary','Yes','Yes'],['Two examples','Yes','Yes']];
+const settings=[['Rules summary','Yes','No'],['Two examples','Yes','No'],['Rules summary','No','No'],['Two examples','No','No'],['Rules summary','Yes','Yes'],['Two examples','Yes','Yes'],['Rules summary — own understanding', 'Yes', 'Yes']];
 settings.forEach((s,i)=>{const row=document.createElement('tr');[i+1,...s].forEach(v=>{const td=document.createElement('td');td.textContent=v;row.append(td)});const td=document.createElement('td');[['Preview','&preview=1'],['Participant','&mode=directLink']].forEach(([name,query])=>{const a=document.createElement('a');a.href='./?version='+(i+1)+query;a.textContent=name;td.append(a,document.createTextNode(' '));});row.append(td);document.getElementById('versions').append(row)});
 </script></html>

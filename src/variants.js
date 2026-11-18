@@ -5,7 +5,8 @@ export const variants = [
   { id: '3', finalTask: 'summary', slider: false, explainTest: false },
   { id: '4', finalTask: 'examples', slider: false, explainTest: false },
   { id: '5', finalTask: 'summary', slider: true, explainTest: true },
-  { id: '6', finalTask: 'examples', slider: true, explainTest: true }
+  { id: '6', finalTask: 'examples', slider: true, explainTest: true },
+  { id: '7', finalTask: 'summary', slider: true, explainTest: true }
 ];
 const params = new URLSearchParams(window.location.search);
 export const variant = variants.find(v => v.id === (params.get('version') || '1'));

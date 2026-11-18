@@ -39,122 +39,61 @@ export default {
     return {
       page: 0,
       pages: [
-        {
-          title: "The real game",
+      {
+        title: "Rules recap",
           text: `
             <p>
-              You are now ready to play against another participant!
-              <strong>The player who has collected more points at the end of the game, wins</strong>.
+              Here is a <strong>short summary of the rules of the game</strong>:
             </p>
 
-            <p>
-              The game consists of <strong>16 rounds</strong>.
-              In each round, you will see a <strong>4 × 4 grid</strong>.
-              Select a path from the <strong>green cell to the yellow cell</strong>,
-              following the rules you have learned.
-            </p>
-
-            <p>
-              If you make a mistake or want to change your path, click
-              <strong>Reset</strong> to clear your selections and start again.
-            </p>
-
-            <p>
-              The <strong>Next</strong> button will appear once you reach the yellow cell.
-              When you are satisfied with your path, click <strong>Next</strong>
-              to confirm it. <strong>You cannot change your path after confirming it.</strong>
-            </p>
+            <ul>
+              <li>Start at the green cell and finish at the yellow cell.</li>
+              <li>No diagonal moves are allowed</li>
+              <li>You cannot visit a cell more than once.</li>
+              <li>Each cell beyond the shortest path costs 1 point.</li>
+              <li>Each orange cell you visit makes you gain 2 points.</li>
+            </ul>
           `
         },
-
         {
           title: "Help during the game",
           text: `
             <p>You will start the game with <strong>two separate free tokens</strong> to get some help if you need it:</p>
             <ul>
-              <li><strong>One token to read a rules summary.</strong></li>
+              <li><strong>One token to read a summary of the rules.</strong></li>
               <li><strong>One token to test a path's score before submitting your final path.</strong></li>
             </ul>
             <p><strong>After the free token is used, each further use of that type of help will cost you 1 point</strong>. The cost of help will be deducted from your score at the end of that round.</p>
 
+            <p> Click on the <strong>green box on the left</strong> of the grid to see a <strong>summary of the rules</strong>, and on the <strong>green box on the right</strong> of the grid to <strong>test a path's score</strong>.</p>
+
+            <div class="instruction-figure">
+              <img
+                src="instructions/help_buttons.png"
+                class="example-image"
+              />
+            </div>
+
             
           `
         },
-
-        {
-          title: "Help during the game",
-          text: `
-            <ul>
-              <li><strong>To see the rules summary</strong>, click on the <strong> green box on the right</strong> of the grid.</li>
-            </ul>
-            <div class="instruction-figure">
-              <img
-                src="instructions/instructions_read.png"
-                class="example-image"
-              />
-            </div>
-
-            <ul>
-              <li><strong>If you click on the green box</strong>, you will see a new page with a summary of the rules. Once you are done reviewing the rules, select <strong>Return to the game</strong> to go back to the game.</li>
-            </ul>
-            
-            <div class="instruction-figure">
-              <img
-                src="instructions/instructions_read_return.png"
-                class="example-image"
-              />
-            </div>
-
-          `
-        },
-
-        {
-          title: "Help during the game",
-          text: `
-            <ul>
-            <li><strong>To test a path</strong>, click on the <strong> green box on the left</strong> of the grid.</li>
-            </ul>
-            <div class="instruction-figure">
-              <img
-                src="instructions/instructions_try.png"
-                class="example-image"
-              />
-            </div>
-
-            <ul>
-              <li>Once you have selected a complete path, If you click on <strong>Cancel test</strong>, you will end the test before checking the score, which means that <strong>no token or extra point will be deducted from you.</strong></li>
-              <li>If instead you click on <strong>Check score</strong>, ${variant.explainTest ? '<strong>you will first be asked to explain why you selected that path</strong>. After submitting your explanation, you will see' : 'you will see'} how many points that path would give you.</li>
-            </ul>
-
-            <div class="instruction-figure">
-              <img
-                src="instructions/instructions_try_cancel.png"
-                class="example-image"
-              />
-            </div>
-
-            <ul>
-              <li><strong>After checking the score of a path, you will be asked to select your final path</strong> for that round. The tested path will not be submitted, only the final path that you select for that round will.</li>
-            </ul>
-
-            <div class="instruction-figure">
-              <img
-                src="instructions/instructions_try_back.png"
-                class="example-image"
-              />
-            </div>
-          `
-        },
-
         {
           title: "Final instructions",
           text: `
+            <p>
+              The game consists of <strong>16 rounds</strong>. In each round, if you make a mistake or want to change your path, click
+              <strong>Reset</strong> to clear your selections and start again.
+            </p>
+
+            <p>
+              When you are satisfied with your path, click <strong>Next</strong>
+              to confirm it. <strong>You cannot change your path after confirming it.</strong>
+            </p>
 
             <p>
               After confirming your path, you will see <strong>your path and the other participant's chosen path side by side</strong>,
               together with the points each of you earned or lost in that round.
             </p>
-
 
             <p>
               Below the images, two bars will show the <strong>total points so far</strong>:
@@ -162,13 +101,6 @@ export default {
               while the <strong>bottom bar, in blue, shows your total</strong>.
               Each round's points are added to or subtracted from the previous total.
             </p>
-            </p>
-
-            ${variant.slider ? `            
-            <p>
-              Once you have seen the current score, in the following screen, you will be asked to <strong>express a rating on a slider from 0 to 100</strong>. In the first round, the slider starts at <strong>50</strong>.
-              In later rounds, it starts at <strong>your previous rating</strong>. During each round, you can either keep your previous rating or change it. <strong>The slider is used to evaluate your confidence in the instructions you received</strong>. 
-            </p>` : ''}
 
             <p>
               At the end of the game, you will see who won and complete a short questionnaire. 
