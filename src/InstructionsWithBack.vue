@@ -18,8 +18,13 @@
 
         <p>
           <strong>You can now choose whether you want to read Alice's or Mike's explanation of the game's rules.</strong>
-          Your opponent will read the instructions written by the person you didn't choose.
         </p>
+
+        <p>
+          <strong>Your opponent will read the instructions written by the person you didn't choose.</strong>
+        </p> 
+          
+        
 
         <p v-if="variant.finalTask === 'summary'">
           <strong>
@@ -213,7 +218,7 @@ export default {
           title: "Points: extra cells",
           text: `
             <p>
-              The first thing you need to know about the points is that you lose <strong>1 point for every extra cell</strong> you visit beyond the shortest possible path from green to yellow. 
+              You lose <strong>1 point for every extra cell</strong> you visit beyond the shortest possible path from green to yellow. 
               For example, a path with <strong>one extra cell costs 1 point</strong>, a path with <strong>two extra cells costs 2 points</strong>, and so on.
             </p>
 
@@ -249,8 +254,7 @@ export default {
           title: "Points: orange cells",
           text: `
             <p>
-              We just saw that you won't lose points by selecting a minimal path. But how exactly can you make points? In the grids, apart from the green and the yellow cells, there will also be other colored cells. What you need to remember is that the <strong>orange cells will give you points</strong>.
-              In fact, you gain <strong>2 points for every orange cell</strong> you visit.
+              In the grids, apart from the green and the yellow cells, there will also be other colored cells. You gain <strong>2 points for every orange cell</strong> you visit.
             </p>
 
             <p>
@@ -342,9 +346,6 @@ export default {
             </p>
           ` : ''}
 
-            <p>
-              Click on "Next" to start the practice. After that, you will be ready to start the real game!
-            </p>
           `
         },
       ],

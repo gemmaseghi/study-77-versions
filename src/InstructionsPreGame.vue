@@ -122,8 +122,8 @@ export default {
             </div>
 
             <ul>
-              <li>Once you have selected a complete path, If you click on <strong>Cancel test</strong>, you will end the test before checking the score, which means that no token or extra point will be deducted from you.</li>
-              <li>If instead you click on <strong>Check score</strong>, ${variant.explainTest ? 'you will first be asked to explain why you selected that path. After submitting your explanation, you will see' : 'you will see'} how many points that path would give you. You will also be reminded of the cost of help for that round, which can be 0 points if you are using the free token or 1 point if you have already used the free token.</li>
+              <li>Once you have selected a complete path, If you click on <strong>Cancel test</strong>, you will end the test before checking the score, which means that <strong>no token or extra point will be deducted from you.</strong></li>
+              <li>If instead you click on <strong>Check score</strong>, ${variant.explainTest ? '<strong>you will first be asked to explain why you selected that path</strong>. After submitting your explanation, you will see' : 'you will see'} how many points that path would give you.</li>
             </ul>
 
             <div class="instruction-figure">
@@ -134,7 +134,7 @@ export default {
             </div>
 
             <ul>
-              <li>After checking the score of a path, you will be asked to select your final path for that round. The tested path will not be submitted, only the final path that you select for that round will.</li>
+              <li><strong>After checking the score of a path, you will be asked to select your final path</strong> for that round. The tested path will not be submitted, only the final path that you select for that round will.</li>
             </ul>
 
             <div class="instruction-figure">

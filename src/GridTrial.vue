@@ -102,17 +102,17 @@
         <section v-else-if="stage === 'feedback'" aria-label="Round feedback">
           <div class="comparison">
             <figure>
-              <figcaption>Opponent’s path</figcaption>
-              <img :src="trial.opponent_image" alt="Opponent’s completed path" @load="opponentLoaded" @error="opponentError = true" />
-              <p v-if="opponentError" class="error">The opponent image could not be loaded. Please contact the researcher.</p>
-              <p>This round: <strong>{{ signed(trial.opponent_score) }}</strong> points</p>
-            </figure>
-            <figure>
               <figcaption>Your path</figcaption>
               <img :src="pathPng" alt="Your confirmed path" />
               <p>Path score: <strong>{{ signed(pathScore) }}</strong> points</p>
               <p>Help costs: <strong>{{ helpCost }}</strong> point(s)</p>
               <p>This round: <strong>{{ signed(roundScore) }}</strong> points</p>
+            </figure>
+            <figure>
+              <figcaption>Opponent’s path</figcaption>
+              <img :src="trial.opponent_image" alt="Opponent’s completed path" @load="opponentLoaded" @error="opponentError = true" />
+              <p v-if="opponentError" class="error">The opponent image could not be loaded. Please contact the researcher.</p>
+              <p>This round: <strong>{{ signed(trial.opponent_score) }}</strong> points</p>
             </figure>
           </div>
           <h3>Total points</h3>
@@ -607,7 +607,7 @@ export default {
 .actions { display: flex; justify-content: center; gap: 16px; }
 .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .comparison figure { margin: 0; }
-.comparison figcaption { font-weight: bold; margin: 10px 0; }
+.comparison figcaption { font-weight: bold; margin: 14px 0; }
 .comparison img { display: block; width: 100%; max-width: 360px; height: auto; margin: 0 auto; }
 .scores { max-width: 640px; margin: 20px auto 30px; }
 .axis { display: flex; justify-content: center; font-variant-numeric: tabular-nums; }
